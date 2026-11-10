@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>ec.udla</groupId>
+        <artifactId>qualitycheck-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>qualitycheck-production</artifactId>
+    <packaging>bundle</packaging>
+    <name>QualityCheck :: Production</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>osgi.core</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>${maven.bundle.plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Activator>ec.udla.qualitycheck.production.internal.ProductionActivator</Bundle-Activator>
+                        <!-- Solo se expone el contrato; la implementacion queda oculta -->
+                        <Export-Package>ec.udla.qualitycheck.production.api;version="1.0.0"</Export-Package>
+                        <Private-Package>ec.udla.qualitycheck.production.internal</Private-Package>
+                        <Import-Package>*</Import-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

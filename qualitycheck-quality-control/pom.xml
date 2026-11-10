@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>ec.udla</groupId>
+        <artifactId>qualitycheck-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>qualitycheck-quality-control</artifactId>
+    <packaging>bundle</packaging>
+    <name>QualityCheck :: Quality Control</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>osgi.core</artifactId>
+        </dependency>
+        <!-- Solo se usa el paquete api (interfaz + modelo) en compilacion -->
+        <dependency>
+            <groupId>ec.udla</groupId>
+            <artifactId>qualitycheck-production</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>${maven.bundle.plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Activator>ec.udla.qualitycheck.quality.internal.QualityControlActivator</Bundle-Activator>
+                        <Private-Package>ec.udla.qualitycheck.quality.internal</Private-Package>
+                        <Import-Package>*</Import-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
