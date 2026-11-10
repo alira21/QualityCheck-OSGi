@@ -93,7 +93,7 @@ bundle:install -s file:/ruta/QualityCheck-OSGi/qualitycheck-quality-control/targ
 
 ## 6. Pruebas de inicio y parada independiente
 
-Anotar los IDs que muestra `bundle:list` (en los ejemplos: Production = 80, QualityControl = 81).
+Anotar los IDs que muestra `bundle:list` (en los ejemplos: Production = 53, QualityControl = 54).
 
 ### Prueba 1 — Ambos activos
 ```
@@ -104,7 +104,7 @@ Esperado: ambos `Active`; QC imprime `APROBADA` / `RECHAZADA` cada 4 s.
 
 ### Prueba 2 — Detener Production (QC debe seguir vivo)
 ```
-bundle:stop 80
+bundle:stop 53
 bundle:list
 ```
 Esperado:
@@ -114,14 +114,14 @@ Esperado:
 
 ### Prueba 3 — Reiniciar Production (reconexion automatica)
 ```
-bundle:start 80
+bundle:start 53
 ```
 Esperado: `[QUALITY] Servicio de produccion DETECTADO...` y la inspeccion se reanuda sola. Los contadores de QC
 se conservan; el contador de piezas de Production empieza de nuevo (nueva instancia del servicio).
 
 ### Prueba 4 — Detener QualityControl (Production no se ve afectado)
 ```
-bundle:stop 81
+bundle:stop 54
 bundle:list
 service:list ec.udla.qualitycheck.production.api.ProductionService
 ```
@@ -129,23 +129,23 @@ Esperado: QC muestra su resumen y queda `Resolved`; Production sigue `Active` y 
 
 ### Prueba 5 — Reiniciar QualityControl
 ```
-bundle:start 81
+bundle:start 54
 ```
 
 ### Prueba 6 — Arrancar QC sin Production activo
 ```
-bundle:stop 80
-bundle:restart 81
-bundle:start 80
+bundle:stop 53
+bundle:restart 54
+bundle:start 53
 ```
 Esperado: QC arranca en espera y comienza a inspeccionar en cuanto aparece el servicio.
 
 ### Comandos utiles de diagnostico
 ```
-bundle:headers 80      # ver Export-Package / Import-Package generados
-bundle:diag 81         # explica por que un bundle no resuelve
+bundle:headers 53      # ver Export-Package / Import-Package generados
+bundle:diag 54         # explica por que un bundle no resuelve
 log:tail               # ver el log de Karaf (Ctrl+C para salir)
-bundle:uninstall 81 80 # limpiar
+bundle:uninstall 54 53 # limpiar
 ```
 
 > Nota: si se **desinstala** Production (no solo detener) y se ejecuta `bundle:refresh`, QC dejara de resolver porque
