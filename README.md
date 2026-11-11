@@ -309,38 +309,6 @@ stateDiagram-v2
 | **Orientado a servicios (SOA en la JVM)** | Modelo *publish – find – bind* a través del Service Registry. |
 | **En capas** | La especificación separa módulos, ciclo de vida, servicios y seguridad. |
 | **Patrones de diseño asociados** | Service Registry / Locator, Inversión de Dependencias, Whiteboard. |
-
-### ¿Qué podemos hacer con OSGi?
-
-- **Despliegue y actualización en caliente** sin reiniciar la aplicación (demostrado en el paso 5).
-- **Convivencia de versiones**: varias versiones de una misma librería en la misma JVM.
-- **Sistemas extensibles por plug-ins**, como Eclipse IDE, openHAB, Liferay o gateways IoT.
-- **Alta disponibilidad**: un módulo puede detenerse sin tumbar el resto (pasos 3 y 4).
-
----
-
-## Preguntas frecuentes
-
-<details>
-<summary><b>¿Por qué Quality Control no falla cuando Production se detiene?</b></summary>
-
-Detener un bundle retira su **servicio** del registro, pero no su **paquete** exportado. El `ServiceTracker`
-de Quality Control detecta la desaparición del servicio y entra en modo espera en lugar de lanzar un error.
-</details>
-
-<details>
-<summary><b>¿Qué pasa si se desinstala Production en lugar de detenerlo?</b></summary>
-
-Quality Control perdería el paquete `api` del que depende. Tras un `bundle:refresh` dejaría de resolver hasta
-que Production se reinstale. Es el comportamiento esperado de OSGi.
-</details>
-
-<details>
-<summary><b>¿Por qué las medidas aparecen con coma decimal?</b></summary>
-
-Java formatea los números según la configuración regional del sistema operativo (español → coma decimal).
-</details>
-
 ---
 
 <div align="center">
