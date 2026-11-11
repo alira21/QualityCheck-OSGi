@@ -4,19 +4,9 @@
 
 **Sistema de control de calidad industrial modular construido sobre OSGi y Apache Karaf**
 
-![Java](https://img.shields.io/badge/Java-17%2B-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![Maven](https://img.shields.io/badge/Maven-3.9-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
-![Apache Karaf](https://img.shields.io/badge/Apache%20Karaf-4.4.12-D22128?style=for-the-badge&logo=apache&logoColor=white)
-![OSGi](https://img.shields.io/badge/OSGi-Core%20R7-4A90E2?style=for-the-badge)
-
 Dos bundles OSGi **débilmente acoplados** que se comunican mediante el registro de servicios,
 y que pueden **arrancarse, detenerse y actualizarse en caliente** sin afectar al resto del sistema.
 
-[Descripción](#descripción) •
-[Arquitectura](#arquitectura) •
-[Instalación](#instalación) •
-[Procedimiento](#procedimiento-y-pruebas-en-karaf) •
-[Teoría](#fundamento-teórico)
 
 </div>
 
