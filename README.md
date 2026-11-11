@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🏭 QualityCheck OSGi
+# QualityCheck OSGi
 
 **Sistema de control de calidad industrial modular construido sobre OSGi y Apache Karaf**
 
@@ -12,22 +12,22 @@
 Dos bundles OSGi **débilmente acoplados** que se comunican mediante el registro de servicios,
 y que pueden **arrancarse, detenerse y actualizarse en caliente** sin afectar al resto del sistema.
 
-[Descripción](#-descripción) •
-[Arquitectura](#️-arquitectura) •
-[Instalación](#-instalación) •
-[Procedimiento](#-procedimiento-y-pruebas-en-karaf) •
-[Teoría](#-fundamento-teórico)
+[Descripción](#descripción) •
+[Arquitectura](#arquitectura) •
+[Instalación](#instalación) •
+[Procedimiento](#procedimiento-y-pruebas-en-karaf) •
+[Teoría](#fundamento-teórico)
 
 </div>
 
 ---
 
-## 📋 Descripción
+## Descripción
 
 | Bundle | Rol | Qué hace |
 |:--|:--|:--|
-| 🏗️ **Production** | Proveedor | Fabrica piezas con medidas simuladas (largo y diámetro) y **publica** `ProductionService` en el registro OSGi. Aproximadamente un 15 % de las piezas sale con defectos. |
-| 🔍 **Quality Control** | Consumidor | **Descubre** el servicio de producción en tiempo de ejecución, inspecciona una pieza cada 4 s y la **aprueba o rechaza** según tolerancias. |
+| **Production** | Proveedor | Fabrica piezas con medidas simuladas (largo y diámetro) y **publica** `ProductionService` en el registro OSGi. Aproximadamente un 15 % de las piezas sale con defectos. |
+| **Quality Control** | Consumidor | **Descubre** el servicio de producción en tiempo de ejecución, inspecciona una pieza cada 4 s y la **aprueba o rechaza** según tolerancias. |
 
 > [!IMPORTANT]
 > Quality Control **nunca** instancia la implementación de Production: solo conoce su interfaz.
@@ -35,23 +35,23 @@ y que pueden **arrancarse, detenerse y actualizarse en caliente** sin afectar al
 
 ---
 
-## 🏛️ Arquitectura
+## Arquitectura
 
 ```mermaid
 flowchart LR
-    subgraph P["🏗️ Bundle: qualitycheck-production"]
+    subgraph P["Bundle: qualitycheck-production"]
         direction TB
-        API["📦 api — EXPORTADO<br/>ProductionService<br/>Piece"]
-        IMPL["🔒 internal — PRIVADO<br/>ProductionServiceImpl<br/>ProductionActivator"]
+        API["api — EXPORTADO<br/>ProductionService<br/>Piece"]
+        IMPL["internal — PRIVADO<br/>ProductionServiceImpl<br/>ProductionActivator"]
         IMPL -. implementa .-> API
     end
 
-    subgraph Q["🔍 Bundle: qualitycheck-quality-control"]
+    subgraph Q["Bundle: qualitycheck-quality-control"]
         direction TB
-        ACT["🔒 internal — PRIVADO<br/>QualityControlActivator<br/>ServiceTracker<br/>QualityInspector"]
+        ACT["internal — PRIVADO<br/>QualityControlActivator<br/>ServiceTracker<br/>QualityInspector"]
     end
 
-    REG[("⚙️ OSGi Service Registry<br/>Apache Karaf / Felix")]
+    REG[(" OSGi Service Registry<br/>Apache Karaf / Felix")]
 
     IMPL -- "1. registerService()" --> REG
     REG -- "2. notifica aparición / retiro" --> ACT
@@ -75,15 +75,15 @@ QualityCheck-OSGi/
 ├── qualitycheck-production/
 │   ├── pom.xml
 │   └── src/main/java/ec/udla/qualitycheck/production/
-│       ├── api/                              # 📦 Exportado
+│       ├── api/                              # Exportado
 │       │   ├── Piece.java
 │       │   └── ProductionService.java
-│       └── internal/                         # 🔒 Privado
+│       └── internal/                         # Privado
 │           ├── ProductionActivator.java
 │           └── ProductionServiceImpl.java
 └── qualitycheck-quality-control/
     ├── pom.xml
-    └── src/main/java/ec/udla/qualitycheck/quality/internal/   # 🔒 Privado
+    └── src/main/java/ec/udla/qualitycheck/quality/internal/   # Privado
         ├── InspectionResult.java
         ├── QualityControlActivator.java
         └── QualityInspector.java
@@ -98,7 +98,7 @@ QualityCheck-OSGi/
 
 ---
 
-## 🛠️ Requisitos
+## Requisitos
 
 | Herramienta | Versión | Verificar con |
 |:--|:--|:--|
@@ -108,7 +108,7 @@ QualityCheck-OSGi/
 
 ---
 
-## 📥 Instalación
+## Instalación
 
 ### 1. Clonar y compilar
 
@@ -146,7 +146,7 @@ tar -xf "$env:TEMP\karaf.zip" -C "C:\karaf" --exclude "*/examples/*"
 
 ---
 
-## 🚀 Procedimiento y pruebas en Karaf
+## Procedimiento y pruebas en Karaf
 
 ### Paso 1 — Arrancar Karaf
 
@@ -205,8 +205,8 @@ y queda en espera. Al reiniciar Production, Quality Control **detecta el servici
 
 | Bundle | Tras `bundle:stop 53` | Tras `bundle:start 53` |
 |:--|:--:|:--:|
-| Production | `Resolved` ⏸️ | `Active` ✅ |
-| Quality Control | `Active` ✅ (en espera) | `Active` ✅ (inspeccionando) |
+| Production | `Resolved` | `Active` |
+| Quality Control | `Active` (en espera) | `Active` (inspeccionando) |
 
 ![Stop y start de Production](docs/Photo2.png)
 
@@ -226,8 +226,8 @@ Quality Control se detiene y muestra su resumen. Production sigue `Active` y `se
 
 | Bundle | Tras `bundle:stop 54` |
 |:--|:--:|
-| Production | `Active` ✅ (servicio publicado) |
-| Quality Control | `Resolved` ⏸️ |
+| Production | `Active` (servicio publicado) |
+| Quality Control | `Resolved` |
 
 ![Stop de Quality Control y service:list](docs/Photo3.png)
 
@@ -254,7 +254,7 @@ resumen final.
 ![Quality Control actualizado en caliente](docs/Photo4.png)
 
 <details>
-<summary>📖 Comandos útiles de diagnóstico</summary>
+<summary>Comandos útiles de diagnóstico</summary>
 
 | Comando | Para qué sirve |
 |:--|:--|
@@ -270,7 +270,7 @@ resumen final.
 
 ---
 
-## 📚 Fundamento teórico
+## Fundamento teórico
 
 ### ¿Qué es OSGi?
 
@@ -279,10 +279,10 @@ OSGi es una especificación para construir aplicaciones Java **modulares y diná
 
 ```mermaid
 flowchart TB
-    S["🔌 Capa de Servicios<br/>publicar · buscar · usar"]
-    L["🔄 Capa de Ciclo de Vida<br/>install · start · stop · update · uninstall"]
-    M["📦 Capa de Módulos<br/>classloader por bundle · Import/Export-Package"]
-    J["☕ JVM"]
+    S["Capa de Servicios<br/>publicar · buscar · usar"]
+    L["Capa de Ciclo de Vida<br/>install · start · stop · update · uninstall"]
+    M["Capa de Módulos<br/>classloader por bundle · Import/Export-Package"]
+    J["JVM"]
     S --> L --> M --> J
 ```
 
@@ -305,21 +305,21 @@ stateDiagram-v2
 
 | Patrón | Cómo se manifiesta en OSGi |
 |:--|:--|
-| 🧩 **Microkernel / Plug-in** *(principal)* | El framework (Felix dentro de Karaf) es un núcleo mínimo; toda la funcionalidad se añade como bundles enchufables. |
-| 🔌 **Orientado a servicios (SOA en la JVM)** | Modelo *publish – find – bind* a través del Service Registry. |
-| 🗂️ **En capas** | La especificación separa módulos, ciclo de vida, servicios y seguridad. |
-| 🔁 **Patrones de diseño asociados** | Service Registry / Locator, Inversión de Dependencias, Whiteboard. |
+| **Microkernel / Plug-in** *(principal)* | El framework (Felix dentro de Karaf) es un núcleo mínimo; toda la funcionalidad se añade como bundles enchufables. |
+| **Orientado a servicios (SOA en la JVM)** | Modelo *publish – find – bind* a través del Service Registry. |
+| **En capas** | La especificación separa módulos, ciclo de vida, servicios y seguridad. |
+| **Patrones de diseño asociados** | Service Registry / Locator, Inversión de Dependencias, Whiteboard. |
 
 ### ¿Qué podemos hacer con OSGi?
 
-- ♻️ **Despliegue y actualización en caliente** sin reiniciar la aplicación (demostrado en el paso 5).
-- 🔢 **Convivencia de versiones**: varias versiones de una misma librería en la misma JVM.
-- 🧱 **Sistemas extensibles por plug-ins**, como Eclipse IDE, openHAB, Liferay o gateways IoT.
-- 🛡️ **Alta disponibilidad**: un módulo puede detenerse sin tumbar el resto (pasos 3 y 4).
+- **Despliegue y actualización en caliente** sin reiniciar la aplicación (demostrado en el paso 5).
+- **Convivencia de versiones**: varias versiones de una misma librería en la misma JVM.
+- **Sistemas extensibles por plug-ins**, como Eclipse IDE, openHAB, Liferay o gateways IoT.
+- **Alta disponibilidad**: un módulo puede detenerse sin tumbar el resto (pasos 3 y 4).
 
 ---
 
-## ❓ Preguntas frecuentes
+## Preguntas frecuentes
 
 <details>
 <summary><b>¿Por qué Quality Control no falla cuando Production se detiene?</b></summary>
